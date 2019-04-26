@@ -1,9 +1,21 @@
 import './assets/style.scss';
 import React from 'react';
 import { render } from 'react-dom';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import logger from 'redux-logger';
+import Thunk from 'redux-thunk';
+import rootReducer from './reducers';
 import App from './components/App';
 
+const store = createStore(
+    rootReducer,
+    applyMiddleware(logger, Thunk),
+);
+
 render(
-  <App year="2019" title="app" />,
-  document.querySelector('#app'),
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.querySelector('#app'),
 );

@@ -1,8 +1,11 @@
 import React from 'react';
+import { setHearted } from '../actions';
+import {connect} from "react-redux";
+import {addLogsList} from "../thunks";
 
 class Card extends React.Component {
   constructor() {
-    super();
+      super();
 
     this.state = {
       opened: false,
@@ -17,9 +20,9 @@ class Card extends React.Component {
       score,
       votes,
       description,
-      isFavorite,
-      onFavoriteClick,
-      id,
+        onLogs,
+      onSetHearted,
+      id
     } = this.props;
     const { opened } = this.state;
 
@@ -33,9 +36,10 @@ class Card extends React.Component {
         />
 
         <div className="card__title">{title}</div>
-
-        <div className="card__like" onClick={() => onFavoriteClick(id)}>
-          <i className={isFavorite ? 'fa fa-heart' : ' fa fa-heart-o'} />
+        <div className="card__like" onClick={() => {onSetHearted(id);
+            this.props.heartedList.includes(id) ? onLogs(`Nuimta širdelė filmui ${title}`) : onLogs(`Uždėta širdelė filmui ${title}`);
+        }}>
+          <i className= { this.props.heartedList.includes(id) ? 'fa fa-heart' : ' fa fa-heart-o'} />
         </div>
 
         <div className="card__subtitle">
@@ -57,4 +61,17 @@ class Card extends React.Component {
   }
 }
 
-export default Card;
+const mapStateToProps = (state) => ({
+    heartedList: state.movies.heartedList,
+    logs:state.movies.logs
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    onSetHearted: (id) => dispatch(setHearted(id)),
+    onLogs: (data) => dispatch(addLogsList(data))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Card);

@@ -31,6 +31,10 @@
     "axios": "^0.18.0",
     "react": "16.4.2",
     "react-dom": "16.4.2",
-    "react-hot-loader": "next"
+    "react-hot-loader": "next",
+    "react-redux": "^5.1.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   }
 }
